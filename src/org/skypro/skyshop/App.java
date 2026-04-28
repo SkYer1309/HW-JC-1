@@ -2,6 +2,7 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.Product;
+import org.skypro.skyshop.product.SimpleProduct;
 
 public class App {
     public static void main(String[] args) {
@@ -9,13 +10,13 @@ public class App {
         System.out.println("===ИНТЕРНЕТ-МАГАЗИН===");
         System.out.println("======================");
 
-        Product apple = new Product("Яблоки", 110);
-        Product banana = new Product("Бананы", 150);
-        Product orange = new Product("Апельсины", 200);
-        Product milk = new Product("Молоко", 300);
-        Product bread = new Product("Хлеб", 50);
-        Product cheese = new Product("Сыр", 400);
-        Product meat = new Product("Мясо", 500);
+        Product apple = new SimpleProduct("Яблоки", 110);
+        Product banana = new SimpleProduct("Бананы", 150);
+        Product orange = new SimpleProduct("Апельсины", 200);
+        Product milk = new SimpleProduct("Молоко", 300);
+        Product bread = new SimpleProduct("Хлеб", 50);
+        Product cheese = new SimpleProduct("Сыр", 400);
+        Product meat = new SimpleProduct("Мясо", 500);
 
         ProductBasket basket = new ProductBasket();
         ProductBasket basket2 = new ProductBasket();
@@ -32,6 +33,8 @@ public class App {
         basket.addProduct(milk);
         System.out.println("добавляем хлеб (50 р.)");
         basket.addProduct(bread);
+        System.out.println("добавляем сыр (400 р.)");
+        basket.addProduct(cheese);
         System.out.println();
 
         System.out.println("2.Добавление продукта в заполненную корзину");
@@ -92,6 +95,7 @@ public class App {
         found = basket2.availabilityProduct(searchProduct2);
         System.out.println("Наличие товара / " + searchProduct2 + " / в корзине - " + found);
         System.out.println();
+
 
     }
 }
