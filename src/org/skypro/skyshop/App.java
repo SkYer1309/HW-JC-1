@@ -1,6 +1,8 @@
 package org.skypro.skyshop;
 
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.product.DiscountedProduct;
+import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 
@@ -9,13 +11,15 @@ public class App {
 
         System.out.println("===ИНТЕРНЕТ-МАГАЗИН===");
         System.out.println("======================");
-
+//создаем товары разных типов
         Product apple = new SimpleProduct("Яблоки", 110);
         Product banana = new SimpleProduct("Бананы", 150);
-        Product orange = new SimpleProduct("Апельсины", 200);
-        Product milk = new SimpleProduct("Молоко", 300);
-        Product bread = new SimpleProduct("Хлеб", 50);
-        Product cheese = new SimpleProduct("Сыр", 400);
+        DiscountedProduct orange = new DiscountedProduct ("Апельсины",
+                200,25);  //скидка 25%
+        DiscountedProduct  milk = new DiscountedProduct ("Молоко",
+                300,10);
+        FixPriceProduct bread = new FixPriceProduct ("Хлеб"); //фикс цена 99
+        FixPriceProduct  cheese = new FixPriceProduct ("Сыр");
         Product meat = new SimpleProduct("Мясо", 500);
 
         ProductBasket basket = new ProductBasket();
