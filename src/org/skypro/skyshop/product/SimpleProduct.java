@@ -3,9 +3,9 @@ package org.skypro.skyshop.product;
 public class SimpleProduct extends Product {
     private final int price;
 
-    public SimpleProduct(String name, int price) {
+    public SimpleProduct(String name, double price) {
         super(name); // передаем конструктор в имя родителя
-        this.price = price;
+        this.price = (int) price;
     }
 
     @Override
@@ -21,5 +21,15 @@ public class SimpleProduct extends Product {
     @Override
     public String toString() {
         return getName() + ": " + getPrice();
+    }
+
+    @Override
+    public String getName() {
+        return "";
+    }
+
+    @Override
+    public String getStringRepresentation() {
+        return super.getStringRepresentation();
     }
 }
