@@ -1,10 +1,14 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.engine.SearchEngine;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.Searchable;
+
 
 public class App {
     public static void main(String[] args) {
@@ -14,12 +18,12 @@ public class App {
 //создаем товары разных типов
         Product apple = new SimpleProduct("Яблоки", 110);
         Product banana = new SimpleProduct("Бананы", 150);
-        DiscountedProduct orange = new DiscountedProduct ("Апельсины",
-                200,25);  //скидка 25%
-        DiscountedProduct  milk = new DiscountedProduct ("Молоко",
-                300,10);
-        FixPriceProduct bread = new FixPriceProduct ("Хлеб"); //фикс цена 99
-        FixPriceProduct  cheese = new FixPriceProduct ("Сыр");
+        DiscountedProduct orange = new DiscountedProduct("Апельсины",
+                200, 25);  //скидка 25%
+        DiscountedProduct milk = new DiscountedProduct("Молоко",
+                300, 10);
+        FixPriceProduct bread = new FixPriceProduct("Хлеб"); //фикс цена 99
+        FixPriceProduct cheese = new FixPriceProduct("Сыр");
         Product meat = new SimpleProduct("Мясо", 500);
 
         ProductBasket basket = new ProductBasket();
@@ -100,7 +104,81 @@ public class App {
         System.out.println("Наличие товара / " + searchProduct2 + " / в корзине - " + found);
         System.out.println();
 
+        System.out.println("======== РАБОТА ПОИСКА =========");
 
+        // Создаём поисковый движок на 20 элементов
+        SearchEngine searchEngine = new SearchEngine(20);
+
+        // Добавляем товары
+        searchEngine.add(apple);
+        searchEngine.add(banana);
+        searchEngine.add(bread);
+        searchEngine.add(cheese);
+        searchEngine.add(meat);
+
+        // Добавляем дополнительные товары для поиска
+        SimpleProduct  tomatoes= new SimpleProduct("Томаты", 80);
+        SimpleProduct butter = new SimpleProduct("Масло", 120);
+        DiscountedProduct fish = new DiscountedProduct("Рыба", 300, 15);
+        FixPriceProduct pencil = new FixPriceProduct("Карандаш");
+
+        searchEngine.add(tomatoes);
+        searchEngine.add(butter);
+        searchEngine.add(fish);
+        searchEngine.add(pencil);
+
+
+        //стати о товарах
+        Article article1 = new Article(
+                "Польза яблок",
+                "Яблоки богаты витаминами");
+        Article article2 = new Article(
+                "Молочные продукты",
+                "Молоко и молочные продукты содержат кальций");
+        Article article3 = new Article(
+                "Как выбрать сыр",
+                "Сыр бывает разных сортов: твердый, мягкий");
+        Article article4 = new Article(
+                "Рыба в рационе",
+                "Рыба богата омега-3 жирными кислотами");
+
+        // Добавляем статьи в поисковый движок
+        searchEngine.add(article1);
+        searchEngine.add(article2);
+        searchEngine.add(article3);
+        searchEngine.add(article4);
+
+        System.out.println("======== Поиск с разными строками ========");
+        System.out.println();
+        System.out.println("\n=== Поиск: 'Сыр' ===");
+        printSearchResults(searchEngine.search("Сыр"));
+
+        System.out.println("\n=== Поиск: 'Молоко' ===");
+        printSearchResults(searchEngine.search("Молоко"));
+
+        System.out.println("\n=== Поиск: 'Рыба' ===");
+        printSearchResults(searchEngine.search("Рыба"));
+
+        System.out.println("\n=== Поиск: 'полезны' ===");
+        printSearchResults(searchEngine.search("полезны"));
+
+        System.out.println("\n=== Поиск: 'нет такого' ===");
+        printSearchResults(searchEngine.search("нет такого"));
     }
+
+    private static void printSearchResults(Searchable[] results) {
+        boolean hasResults=false;
+        for (Searchable item:results){
+            if (item!=null){
+                System.out.println(item.getStringRepresentation());
+            hasResults=true;
+            }
+        }
+        if (!hasResults){
+            System.out.println("Ничего не найдено");
+        }
+    }
+
+
 }
 
