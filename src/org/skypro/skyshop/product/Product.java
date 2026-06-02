@@ -9,9 +9,6 @@ public abstract class Product implements Searchable {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
 
     // Абстрактный метод — каждый подкласс реализует свою логику цены
     public abstract int getPrice();

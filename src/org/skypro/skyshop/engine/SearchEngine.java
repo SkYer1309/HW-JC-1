@@ -3,31 +3,43 @@ package org.skypro.skyshop.engine;
 import org.skypro.skyshop.search.Searchable;
 
 public class SearchEngine {
+    // ✅ Массив Searchable, размер передаётся в конструкторе
     private final Searchable[] items;
-    private int size;
 
     public SearchEngine(int capacity) {
-        items = new Searchable[capacity];
-        size = 0;
+        this.items = new Searchable[capacity];
     }
 
+    // ✅ Добавление: ищет первую свободную ячейку (null)
     public void add(Searchable item) {
-        if (size < items.length) {
-            items[size] = item;
-            size++;
+        for (int i = 0; i < items.length; i++) {
+            if (items[i] == null) {
+                items[i] = item;
+                return;
+            }
         }
+        // Если массив полон — элемент не добавляется (выход за границы предотвращён)
     }
 
-    public Searchable[] search(String search) {
+    // ✅ Поиск: возвращает максимум 5 результатов через contains()
+    public Searchable[] search(String query) {
         Searchable[] results = new Searchable[5];
-        int resultIndex = 0;
-        for (int i = 0; i < size && resultIndex < 5; i++) {
-            Searchable item = items[i];
-            if (item != null) {
-                String searchTerm = item.getSearchTerm();
-                if (searchTerm != null && search.contains(search)) {
-                    results[resultIndex] = item;
-                    resultIndex++;
+        int foundCount = 0;
+
+        for (Searchable item : items) {
+            // ✅ Пропускаем null-элементы
+            if (item == null) {
+                continue;
+            }
+
+            // ✅ Поиск через contains() на getSearchTerm()
+            if (item.getSearchTerm().contains(query)) {
+                results[foundCount] = item;
+                foundCount++;
+
+                // ✅ Ограничиваем результат 5 элементами
+                if (foundCount == 5) {
+                    break;
                 }
             }
         }
