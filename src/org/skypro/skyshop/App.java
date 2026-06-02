@@ -1,8 +1,10 @@
 package org.skypro.skyshop;
 
+
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.engine.SearchEngine;
+import org.skypro.skyshop.engine.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
@@ -12,6 +14,7 @@ import org.skypro.skyshop.search.Searchable;
 
 public class App {
     public static void main(String[] args) {
+
 
         System.out.println("===ИНТЕРНЕТ-МАГАЗИН===");
         System.out.println("======================");
@@ -164,6 +167,85 @@ public class App {
 
         System.out.println("\n=== Поиск: 'нет такого' ===");
         printSearchResults(searchEngine.search("нет такого"));
+
+        // === ДЕМОСТРАЦИЯ ВАЛИДАЦИИ И findBestMatch ===
+        System.out.println("\n======== ПРОВЕРКА ВАЛИДАЦИИ ========");
+
+        // 1. Пустое название
+        try {
+            Product invalid1 = new SimpleProduct("", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 2. null название
+        try {
+            Product invalid2 = new SimpleProduct(null, 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 3. Название из пробелов
+        try {
+            Product invalid3 = new SimpleProduct("   ", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 4. Цена = 0
+        try {
+            Product invalid4 = new SimpleProduct("Товар", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 5. Отрицательная цена
+        try {
+            Product invalid5 = new SimpleProduct("Товар", -50);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 6. basePrice = 0
+        try {
+            Product invalid6 = new DiscountedProduct("Товар", 0, 20);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 7. Скидка < 0
+        try {
+            Product invalid7 = new DiscountedProduct("Товар", 100, -10);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 8. Скидка > 100
+        try {
+            Product invalid8 = new DiscountedProduct("Товар", 100, 150);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // === ДЕМОСТРАЦИЯ findBestMatch ===
+        System.out.println("\n======== ПРОВЕРКА findBestMatch ========");
+
+        // 9. Успешный поиск
+        try {
+            Searchable best = searchEngine.findBestMatch("яблоко");
+            System.out.println("Найдено: " + best.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
+        // 10. Поиск без результата
+        try {
+            Searchable best = searchEngine.findBestMatch("несуществующий_товар_12345");
+            System.out.println("Найдено: " + best.getStringRepresentation());
+        } catch (BestResultNotFound e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+
     }
 
     private static void printSearchResults(Searchable[] results) {
