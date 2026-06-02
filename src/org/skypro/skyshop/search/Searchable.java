@@ -6,13 +6,14 @@ public interface Searchable {
     String getSearchTerm();
 
     // Тип контента: "PRODUCT" или "ARTICLE"
-    String getContentType();
+    String getType();
 
     // Имя Searchable-объекта
     String getName();
 
     // Строковое представление (default метод)
     default String getStringRepresentation() {
-        return getName() + " — " + getContentType();
+        return getName() + " — " + getType();
     }
 }
+
