@@ -26,7 +26,6 @@ public class SimpleProduct extends Product {
         return getName() + ": " + getPrice();
     }
 
-
     @Override
     public String getStringRepresentation() {
         return super.getStringRepresentation();
