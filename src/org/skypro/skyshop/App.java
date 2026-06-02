@@ -244,7 +244,6 @@ public class App {
         }
 
     }
-
     private static void printSearchResults(Searchable[] results) {
         boolean hasResults=false;
         for (Searchable item:results){
