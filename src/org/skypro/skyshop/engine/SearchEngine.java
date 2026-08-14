@@ -1,40 +1,36 @@
 package org.skypro.skyshop.engine;
 
-import org.skypro.skyshop.search.Searchable; // Импортируем интерфейс
-import org.skypro.skyshop.engine.BestResultNotFound; // Импортируем исключение
+import org.skypro.skyshop.search.Searchable;
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class SearchEngine {
-    private final Searchable[] items;
+    // ✅ 1. Меняем массив на LinkedList
+    private final LinkedList<Searchable> items = new LinkedList<>();
 
+    // Конструктор оставляем с параметром для совместимости с вашим main,
+    // но размер теперь игнорируется, так как список динамический
     public SearchEngine(int capacity) {
-        this.items = new Searchable[capacity];
+        // capacity больше не нужен, список растет сам
     }
 
     public void add(Searchable item) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                items[i] = item;
-                return;
-            }
-        }
+        items.add(item); // ✅ Простое добавление без поиска null-ячеек
     }
 
-    public Searchable[] search(String query) {
-        Searchable[] results = new Searchable[5];
-        int foundCount = 0;
-
+    // ✅ 2. Возвращаем List и собираем ВСЕ подходящие результаты (без лимита в 5)
+    public List<Searchable> search(String query) {
+        List<Searchable> results = new LinkedList<>();
         for (Searchable item : items) {
-            if (item == null) continue;
             if (item.getSearchTerm().contains(query)) {
-                results[foundCount] = item;
-                foundCount++;
-                if (foundCount == 5) break;
+                results.add(item);
             }
         }
         return results;
     }
 
-    // ✅ МЕТОД findBestMatch
+    // Метод findBestMatch остается без изменений, он отлично работает с LinkedList
     public Searchable findBestMatch(String search) throws BestResultNotFound {
         Searchable bestMatch = null;
         int maxCount = -1;
@@ -49,6 +45,7 @@ public class SearchEngine {
                 continue;
             }
 
+            // Подсчёт вхождений
             int count = 0;
             int index = 0;
             int indexOfSubstring = searchTerm.indexOf(search, index);
@@ -65,8 +62,9 @@ public class SearchEngine {
             }
         }
 
+        // ✅ ВОТ ЭТА ЧАСТЬ КРИТИЧНА:
         if (maxCount <= 0) {
-            throw new BestResultNotFound(search);
+            throw new BestResultNotFound(search); // ← Должна быть эта строка!
         }
 
         return bestMatch;

@@ -6,82 +6,66 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ProductBasket {
-    private final Product[] products;
-    private int productCount;
+    // ✅ 1. Меняем массив на LinkedList (условно-нефиксированны размер)
+    private final LinkedList<Product> products = new LinkedList<>();
 
-    private Product[] getProducts() {
-        return products;
-    }
-
-    public ProductBasket() {
-        this.products = new Product[5];
-        this.productCount = 0;
-    }
-
-    //добавление товара в корзину
+    // ✅ 2. Добавление без проверок на размер и без вывода "Невозможно добавить продукт"
     public void addProduct(Product product) {
-        if (productCount < products.length) {
-            products[productCount] = product;
-            productCount++;
-        } else {
-            System.out.println("--> Невозможно добавить продукт");
-        }
+        products.add(product);
     }
 
-    //получение общей стоимости
     public int getTotalPrice() {
         int total = 0;
-        for (int i = 0; i < productCount; i++) {
-            total += products[i].getPrice();
+        // ✅ Используем улучшенный цикл for-each
+        for (Product product : products) {
+            total += product.getPrice();
         }
         return total;
     }
 
-    //содержимое корзины
-
     public void printBasket() {
-        boolean empty = true;
+        if (products.isEmpty()) { // ✅ Проверка на пустоту через метод списка
+            System.out.println("в корзине пусто");
+            return;
+        }
+
         int specialCount = 0;
-
-        for (Product products : products) {
-            if (products != null) {
-                // Используем переопределённый toString() каждого товара
-                System.out.println(products.toString());
-                empty = false;
-
-                // Подсчёт специальных товаров через полиморфный вызов
-                if (products.isSpecial()) {
-                    specialCount++;
-                }
+        for (Product product : products) {
+            System.out.println(product.toString());
+            if (product.isSpecial()) {
+                specialCount++;
             }
         }
-
-        if (empty) {
-            System.out.println("в корзине пусто");
-        } else {
-            System.out.println("Итого: " + getTotalPrice());
-            System.out.println("Специальных товаров: " + specialCount);
-        }
+        System.out.println("Итого: " + getTotalPrice());
+        System.out.println("Специальных товаров: " + specialCount);
     }
 
-
-    //наличие продукта в корзине
     public boolean availabilityProduct(String productName) {
-        for (int i = 0; i < productCount; i++) {
-            if (products[i].getName().equalsIgnoreCase(productName)) {
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName)) {
                 return true;
             }
         }
         return false;
     }
 
-    //очистка корзины
     public void clearBasket() {
-        for (int i = 0; i < productCount; i++) {
-            products[i] = null;
-        }
-        productCount = 0;
+        products.clear(); // ✅ Очистка списка одной командой
     }
 
+    // ✅ 3. НОВЫЙ МЕТОД: удаление по имени с использованием Iterator
+    public List<Product> removeProductsByName(String name) {
+        List<Product> removed = new LinkedList<>();
+        Iterator<Product> iterator = products.iterator();
 
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            // Сравниваем имена (можно использовать equals или equalsIgnoreCase)
+            if (product.getName().equalsIgnoreCase(name)) {
+                removed.add(product);      // Добавляем в список удаленных (учитывает дубликаты)
+                iterator.remove();         // ✅ Безопасное удаление через Iterator
+            }
+        }
+        return removed; // Если ничего не найдено, вернется пустой список
+    }
 }
