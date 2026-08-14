@@ -24,7 +24,7 @@ public class ProductBasket {
     }
 
     public void printBasket() {
-        if (products.isEmpty()) { // ✅ Проверка на пустоту через метод списка
+        if (products.isEmpty()) { // Проверка на пустоту через метод списка
             System.out.println("в корзине пусто");
             return;
         }

@@ -5,7 +5,7 @@ public class SimpleProduct extends Product {
 
     public SimpleProduct(String name, int price) {
         super(name);
-        // ✅ ПРОВЕРКА ЦЕНЫ — ТОЧНО КАК В КРИТЕРИЯХ
+        // ПРОВЕРКА ЦЕНЫ — ТОЧНО КАК В КРИТЕРИЯХ
         if (price <= 0) {
             throw new IllegalArgumentException("Цена продукта должна быть строго больше 0");
         }

@@ -196,7 +196,7 @@ public class App {
         }
     }
 
-    // ✅ ИЗМЕНЕНО: метод теперь принимает List<Searchable> вместо массива Searchable[]
+    // ИЗМЕНЕНО: метод теперь принимает List<Searchable> вместо массива Searchable[]
     private static void printSearchResults(List<Searchable> results) {
         if (results.isEmpty()) {
             System.out.println("Ничего не найдено");
