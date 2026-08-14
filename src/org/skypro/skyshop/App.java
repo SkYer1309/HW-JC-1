@@ -38,9 +38,7 @@ public class App {
         basket.addProduct(bread);
         basket.addProduct(cheese);
         System.out.println();
-
         //  УДАЛЕНО: Блок "2.Добавление продукта в заполненную корзину" и вывод ошибки
-
         System.out.println("2.Печать содержимого корзины с несколькими товарами");
         System.out.println("-----------------------------------------------------");
         System.out.println("Корзина 1:");
