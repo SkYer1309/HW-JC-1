@@ -10,7 +10,7 @@ import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Searchable;
 
-import java.util.List; // ✅ Добавлен импорт для List
+import java.util.List; //  Добавлен импорт для List
 
 public class App {
     public static void main(String[] args) {
