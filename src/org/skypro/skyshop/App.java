@@ -146,6 +146,7 @@ public class App {
         Article article3 = new Article("Как выбрать сыр", "Сыр бывает разных сортов: твердый, мягкий");
         Article article4 = new Article("Рыба в рационе", "Рыба богата омега-3 жирными кислотами");
 
+
         searchEngine.add(article1);
         searchEngine.add(article2);
         searchEngine.add(article3);
