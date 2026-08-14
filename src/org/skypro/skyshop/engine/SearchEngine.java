@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public class SearchEngine {
-    // ✅ 1. Меняем массив на LinkedList
+    //  1. Меняем массив на LinkedList
     private final LinkedList<Searchable> items = new LinkedList<>();
 
     // Конструктор оставляем с параметром для совместимости с вашим main,
@@ -16,10 +16,10 @@ public class SearchEngine {
     }
 
     public void add(Searchable item) {
-        items.add(item); // ✅ Простое добавление без поиска null-ячеек
+        items.add(item); //  Простое добавление без поиска null-ячеек
     }
 
-    // ✅ 2. Возвращаем List и собираем ВСЕ подходящие результаты (без лимита в 5)
+    //  2. Возвращаем List и собираем ВСЕ подходящие результаты (без лимита в 5)
     public List<Searchable> search(String query) {
         List<Searchable> results = new LinkedList<>();
         for (Searchable item : items) {
@@ -62,7 +62,7 @@ public class SearchEngine {
             }
         }
 
-        // ✅ ВОТ ЭТА ЧАСТЬ КРИТИЧНА:
+        //  ВОТ ЭТА ЧАСТЬ КРИТИЧНА:
         if (maxCount <= 0) {
             throw new BestResultNotFound(search); // ← Должна быть эта строка!
         }

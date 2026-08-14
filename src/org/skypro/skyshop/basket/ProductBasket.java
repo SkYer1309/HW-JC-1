@@ -50,10 +50,10 @@ public class ProductBasket {
     }
 
     public void clearBasket() {
-        products.clear(); // ✅ Очистка списка одной командой
+        products.clear(); //  Очистка списка одной командой
     }
 
-    // ✅ 3. НОВЫЙ МЕТОД: удаление по имени с использованием Iterator
+    //  3. НОВЫЙ МЕТОД: удаление по имени с использованием Iterator
     public List<Product> removeProductsByName(String name) {
         List<Product> removed = new LinkedList<>();
         Iterator<Product> iterator = products.iterator();
@@ -63,7 +63,7 @@ public class ProductBasket {
             // Сравниваем имена (можно использовать equals или equalsIgnoreCase)
             if (product.getName().equalsIgnoreCase(name)) {
                 removed.add(product);      // Добавляем в список удаленных (учитывает дубликаты)
-                iterator.remove();         // ✅ Безопасное удаление через Iterator
+                iterator.remove();         //Безопасное удаление через Iterator
             }
         }
         return removed; // Если ничего не найдено, вернется пустой список
