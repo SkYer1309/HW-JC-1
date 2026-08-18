@@ -9,6 +9,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Searchable;
+import java.util.List;
 
 import java.util.List; //  Добавлен импорт для List
 
@@ -112,7 +113,7 @@ public class App {
         System.out.println("11.Удаление несуществующего продукта из корзины");
         System.out.println("-----------------------------------------------------");
         List<Product> removedEmpty = basket.removeProductsByName("Планшет");
-        if (removedEmpty.isEmpty()) { // ✅ Проверка на пустой список
+        if (removedEmpty.isEmpty()) {
             System.out.println("Список пуст");
         }
         System.out.println("Содержимое корзины:");
@@ -194,7 +195,7 @@ public class App {
         }
     }
 
-    // ИЗМЕНЕНО: метод теперь принимает List<Searchable> вместо массива Searchable[]
+    // ✅ Теперь принимает List<Searchable> вместо массива
     private static void printSearchResults(List<Searchable> results) {
         if (results.isEmpty()) {
             System.out.println("Ничего не найдено");

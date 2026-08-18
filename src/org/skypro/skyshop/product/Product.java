@@ -13,6 +13,7 @@ public abstract class Product implements Searchable {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -25,6 +26,7 @@ public abstract class Product implements Searchable {
         return getName();
     }
 
+    // ✅ ДОБАВИТЬ ЭТОТ МЕТОД:
     @Override
     public String getType() {
         return "PRODUCT";

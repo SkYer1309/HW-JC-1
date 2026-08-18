@@ -6,33 +6,32 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ProductBasket {
-    // ✅ 1. Меняем массив на LinkedList (условно-нефиксированны размер)
+    // ✅ LinkedList вместо массива
     private final LinkedList<Product> products = new LinkedList<>();
 
-    // ✅ 2. Добавление без проверок на размер и без вывода "Невозможно добавить продукт"
+    // ✅ Добавление без проверок на переполнение
     public void addProduct(Product product) {
         products.add(product);
     }
 
     public int getTotalPrice() {
         int total = 0;
-        // ✅ Используем улучшенный цикл for-each
-        for (Product product : products) {
-            total += product.getPrice();
+        for (Product p : products) {
+            total += p.getPrice();
         }
         return total;
     }
 
     public void printBasket() {
-        if (products.isEmpty()) { // Проверка на пустоту через метод списка
+        if (products.isEmpty()) {
             System.out.println("в корзине пусто");
             return;
         }
 
         int specialCount = 0;
-        for (Product product : products) {
-            System.out.println(product.toString());
-            if (product.isSpecial()) {
+        for (Product p : products) {
+            System.out.println(p.toString());
+            if (p.isSpecial()) {
                 specialCount++;
             }
         }
@@ -41,8 +40,8 @@ public class ProductBasket {
     }
 
     public boolean availabilityProduct(String productName) {
-        for (Product product : products) {
-            if (product.getName().equalsIgnoreCase(productName)) {
+        for (Product p : products) {
+            if (p.getName().equalsIgnoreCase(productName)) {
                 return true;
             }
         }
@@ -50,22 +49,21 @@ public class ProductBasket {
     }
 
     public void clearBasket() {
-        products.clear(); //  Очистка списка одной командой
+        products.clear();
     }
 
-    //  3. НОВЫЙ МЕТОД: удаление по имени с использованием Iterator
+    // ✅ НОВЫЙ МЕТОД: удаление через Iterator
     public List<Product> removeProductsByName(String name) {
         List<Product> removed = new LinkedList<>();
         Iterator<Product> iterator = products.iterator();
 
         while (iterator.hasNext()) {
             Product product = iterator.next();
-            // Сравниваем имена (можно использовать equals или equalsIgnoreCase)
             if (product.getName().equalsIgnoreCase(name)) {
-                removed.add(product);      // Добавляем в список удаленных (учитывает дубликаты)
-                iterator.remove();         //Безопасное удаление через Iterator
+                removed.add(product);
+                iterator.remove(); // ✅ Безопасное удаление через Iterator
             }
         }
-        return removed; // Если ничего не найдено, вернется пустой список
+        return removed; // ✅ Возвращаем список (может быть пустым)
     }
 }

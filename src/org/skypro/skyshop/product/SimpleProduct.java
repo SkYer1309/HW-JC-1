@@ -5,9 +5,10 @@ public class SimpleProduct extends Product {
 
     public SimpleProduct(String name, int price) {
         super(name);
-        // ПРОВЕРКА ЦЕНЫ — ТОЧНО КАК В КРИТЕРИЯХ
         if (price <= 0) {
-            throw new IllegalArgumentException("Цена продукта должна быть строго больше 0");
+            throw new IllegalArgumentException(
+                    "Цена продукта должна быть строго больше 0"
+            );
         }
         this.price = price;
     }
@@ -19,7 +20,7 @@ public class SimpleProduct extends Product {
 
     @Override
     public boolean isSpecial() {
-        return false;
+        return false;  // обычный товар — не специальный
     }
 
     @Override
