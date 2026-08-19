@@ -21,12 +21,12 @@ public class DiscountedProduct extends Product {
     }
 
     @Override
-    public int getPrice() {  // ✅ ОБЯЗАТЕЛЬНО! Возвращает int
+    public int getPrice() {
         return basePrice - (basePrice * discountPercent / 100);
     }
 
     @Override
-    public boolean isSpecial() {  // ✅ ОБЯЗАТЕЛЬНО!
+    public boolean isSpecial() {
         return true;  // товар со скидкой — специальный
     }
 

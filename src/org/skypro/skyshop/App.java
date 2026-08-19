@@ -9,6 +9,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Searchable;
+
 import java.util.List;
 
 import java.util.List; //  Добавлен импорт для List
@@ -90,10 +91,6 @@ public class App {
         found = basket2.availabilityProduct(searchProduct2);
         System.out.println("Наличие товара / " + searchProduct2 + " / в корзине - " + found);
         System.out.println();
-
-        // ==========================================
-        //  НОВОЕ: Демонстрация удаления продуктов (п.2 задания)
-        // ==========================================
         // Сначала добавим товары для теста (включая дубликат)
         basket.addProduct(apple);
         basket.addProduct(milk);
@@ -170,14 +167,46 @@ public class App {
 
 
         System.out.println("\n======== ПРОВЕРКА ВАЛИДАЦИИ ========");
-        try { new SimpleProduct("", 100); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
-        try { new SimpleProduct(null, 100); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
-        try { new SimpleProduct("   ", 100); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
-        try { new SimpleProduct("Товар", 0); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
-        try { new SimpleProduct("Товар", -50); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
-        try { new DiscountedProduct("Товар", 0, 20); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
-        try { new DiscountedProduct("Товар", 100, -10); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
-        try { new DiscountedProduct("Товар", 100, 150); } catch (IllegalArgumentException e) { System.out.println("Ошибка: " + e.getMessage()); }
+        try {
+            new SimpleProduct("", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            new SimpleProduct(null, 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            new SimpleProduct("   ", 100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            new SimpleProduct("Товар", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            new SimpleProduct("Товар", -50);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            new DiscountedProduct("Товар", 0, 20);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            new DiscountedProduct("Товар", 100, -10);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+        try {
+            new DiscountedProduct("Товар", 100, 150);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
 
         System.out.println("\n======== ПРОВЕРКА findBestMatch ========");
         try {
@@ -195,7 +224,7 @@ public class App {
         }
     }
 
-    // ✅ Теперь принимает List<Searchable> вместо массива
+    // Теперь принимает List<Searchable> вместо массива
     private static void printSearchResults(List<Searchable> results) {
         if (results.isEmpty()) {
             System.out.println("Ничего не найдено");

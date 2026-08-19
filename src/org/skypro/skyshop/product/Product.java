@@ -19,6 +19,7 @@ public abstract class Product implements Searchable {
     }
 
     public abstract int getPrice();
+
     public abstract boolean isSpecial();
 
     @Override
@@ -26,7 +27,6 @@ public abstract class Product implements Searchable {
         return getName();
     }
 
-    // ✅ ДОБАВИТЬ ЭТОТ МЕТОД:
     @Override
     public String getType() {
         return "PRODUCT";

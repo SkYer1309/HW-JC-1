@@ -1,15 +1,16 @@
 package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class ProductBasket {
-    // ✅ LinkedList вместо массива
+    // LinkedList вместо массива
     private final LinkedList<Product> products = new LinkedList<>();
 
-    // ✅ Добавление без проверок на переполнение
+    // Добавление без проверок на переполнение
     public void addProduct(Product product) {
         products.add(product);
     }
@@ -52,7 +53,7 @@ public class ProductBasket {
         products.clear();
     }
 
-    // ✅ НОВЫЙ МЕТОД: удаление через Iterator
+    // удаление через Iterator
     public List<Product> removeProductsByName(String name) {
         List<Product> removed = new LinkedList<>();
         Iterator<Product> iterator = products.iterator();
@@ -61,9 +62,9 @@ public class ProductBasket {
             Product product = iterator.next();
             if (product.getName().equalsIgnoreCase(name)) {
                 removed.add(product);
-                iterator.remove(); // ✅ Безопасное удаление через Iterator
+                iterator.remove(); // Безопасное удаление через Iterator
             }
         }
-        return removed; // ✅ Возвращаем список (может быть пустым)
+        return removed; // Возвращаем список (может быть пустым)
     }
 }

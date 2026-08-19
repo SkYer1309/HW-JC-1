@@ -1,12 +1,13 @@
 package org.skypro.skyshop.engine;
 
 import org.skypro.skyshop.search.Searchable;
+
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class SearchEngine {
-    // ✅ LinkedList вместо массива
+    // LinkedList вместо массива
     private final LinkedList<Searchable> items = new LinkedList<>();
 
     // Конструктор без параметров (размер не нужен)
@@ -21,7 +22,7 @@ public class SearchEngine {
         items.add(item);
     }
 
-    // ✅ Возвращает ВСЕ результаты, без ограничения в 5
+    // Возвращает ВСЕ результаты, без ограничения в 5
     public List<Searchable> search(String query) {
         List<Searchable> results = new LinkedList<>();
         for (Searchable item : items) {
