@@ -32,7 +32,7 @@ public class Article implements Searchable {
     }
 
     @Override
-    public String getContentType() {
+    public String getType() {
         return "ARTICLE";
     }
 

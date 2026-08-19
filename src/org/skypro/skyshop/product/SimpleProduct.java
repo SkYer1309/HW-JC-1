@@ -3,9 +3,13 @@ package org.skypro.skyshop.product;
 public class SimpleProduct extends Product {
     private final int price;
 
-    public SimpleProduct(String name, double price) {
-        super(name); // передаем конструктор в имя родителя
-        this.price = (int) price;
+    public SimpleProduct(String name, int price) {
+        super(name);
+        // ✅ ПРОВЕРКА ЦЕНЫ — ТОЧНО КАК В КРИТЕРИЯХ
+        if (price <= 0) {
+            throw new IllegalArgumentException("Цена продукта должна быть строго больше 0");
+        }
+        this.price = price;
     }
 
     @Override
@@ -15,21 +19,11 @@ public class SimpleProduct extends Product {
 
     @Override
     public boolean isSpecial() {
-        return false; //обычный товар
+        return false;
     }
 
     @Override
     public String toString() {
         return getName() + ": " + getPrice();
-    }
-
-    @Override
-    public String getName() {
-        return "";
-    }
-
-    @Override
-    public String getStringRepresentation() {
-        return super.getStringRepresentation();
     }
 }
