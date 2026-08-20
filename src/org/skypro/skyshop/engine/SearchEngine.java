@@ -1,53 +1,45 @@
 package org.skypro.skyshop.engine;
 
-import org.skypro.skyshop.search.Searchable; // Импортируем интерфейс
-import org.skypro.skyshop.engine.BestResultNotFound; // Импортируем исключение
+import org.skypro.skyshop.search.Searchable;
+
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class SearchEngine {
-    private final Searchable[] items;
+    // LinkedList вместо массива
+    private final LinkedList<Searchable> items = new LinkedList<>();
 
+    // Конструктор без параметров (размер не нужен)
+    public SearchEngine() {
+    }
+
+    // Для совместимости со старым кодом в main
     public SearchEngine(int capacity) {
-        this.items = new Searchable[capacity];
     }
 
     public void add(Searchable item) {
-        for (int i = 0; i < items.length; i++) {
-            if (items[i] == null) {
-                items[i] = item;
-                return;
-            }
-        }
+        items.add(item);
     }
 
-    public Searchable[] search(String query) {
-        Searchable[] results = new Searchable[5];
-        int foundCount = 0;
-
+    // Возвращает ВСЕ результаты, без ограничения в 5
+    public List<Searchable> search(String query) {
+        List<Searchable> results = new LinkedList<>();
         for (Searchable item : items) {
-            if (item == null) continue;
             if (item.getSearchTerm().contains(query)) {
-                results[foundCount] = item;
-                foundCount++;
-                if (foundCount == 5) break;
+                results.add(item);
             }
         }
         return results;
     }
 
-    // ✅ МЕТОД findBestMatch
     public Searchable findBestMatch(String search) throws BestResultNotFound {
         Searchable bestMatch = null;
         int maxCount = -1;
 
         for (Searchable item : items) {
-            if (item == null) {
-                continue;
-            }
-
             String searchTerm = item.getSearchTerm();
-            if (searchTerm == null) {
-                continue;
-            }
+            if (searchTerm == null) continue;
 
             int count = 0;
             int index = 0;

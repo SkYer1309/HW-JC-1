@@ -13,11 +13,13 @@ public abstract class Product implements Searchable {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
     public abstract int getPrice();
+
     public abstract boolean isSpecial();
 
     @Override

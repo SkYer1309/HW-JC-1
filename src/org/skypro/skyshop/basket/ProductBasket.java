@@ -2,83 +2,69 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 public class ProductBasket {
-    private final Product[] products;
-    private int productCount;
+    // LinkedList вместо массива
+    private final LinkedList<Product> products = new LinkedList<>();
 
-    private Product[] getProducts() {
-        return products;
-    }
-
-    public ProductBasket() {
-        this.products = new Product[5];
-        this.productCount = 0;
-    }
-
-    //добавление товара в корзину
+    // Добавление без проверок на переполнение
     public void addProduct(Product product) {
-        if (productCount < products.length) {
-            products[productCount] = product;
-            productCount++;
-        } else {
-            System.out.println("--> Невозможно добавить продукт");
-        }
+        products.add(product);
     }
 
-    //получение общей стоимости
     public int getTotalPrice() {
         int total = 0;
-        for (int i = 0; i < productCount; i++) {
-            total += products[i].getPrice();
+        for (Product p : products) {
+            total += p.getPrice();
         }
         return total;
     }
 
-    //содержимое корзины
-
     public void printBasket() {
-        boolean empty = true;
+        if (products.isEmpty()) {
+            System.out.println("в корзине пусто");
+            return;
+        }
+
         int specialCount = 0;
-
-        for (Product products : products) {
-            if (products != null) {
-                // Используем переопределённый toString() каждого товара
-                System.out.println(products.toString());
-                empty = false;
-
-                // Подсчёт специальных товаров через полиморфный вызов
-                if (products.isSpecial()) {
-                    specialCount++;
-                }
+        for (Product p : products) {
+            System.out.println(p.toString());
+            if (p.isSpecial()) {
+                specialCount++;
             }
         }
-
-        if (empty) {
-            System.out.println("в корзине пусто");
-        } else {
-            System.out.println("Итого: " + getTotalPrice());
-            System.out.println("Специальных товаров: " + specialCount);
-        }
+        System.out.println("Итого: " + getTotalPrice());
+        System.out.println("Специальных товаров: " + specialCount);
     }
 
-
-    //наличие продукта в корзине
     public boolean availabilityProduct(String productName) {
-        for (int i = 0; i < productCount; i++) {
-            if (products[i].getName().equalsIgnoreCase(productName)) {
+        for (Product p : products) {
+            if (p.getName().equalsIgnoreCase(productName)) {
                 return true;
             }
         }
         return false;
     }
 
-    //очистка корзины
     public void clearBasket() {
-        for (int i = 0; i < productCount; i++) {
-            products[i] = null;
-        }
-        productCount = 0;
+        products.clear();
     }
 
+    // удаление через Iterator
+    public List<Product> removeProductsByName(String name) {
+        List<Product> removed = new LinkedList<>();
+        Iterator<Product> iterator = products.iterator();
 
+        while (iterator.hasNext()) {
+            Product product = iterator.next();
+            if (product.getName().equalsIgnoreCase(name)) {
+                removed.add(product);
+                iterator.remove(); // Безопасное удаление через Iterator
+            }
+        }
+        return removed; // Возвращаем список (может быть пустым)
+    }
 }
