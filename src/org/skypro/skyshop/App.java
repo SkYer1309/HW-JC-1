@@ -11,6 +11,7 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Searchable;
 
 import java.util.List;
+import java.util.TreeMap;
 
 import java.util.List; //  Добавлен импорт для List
 
@@ -224,13 +225,14 @@ public class App {
         }
     }
 
-    // Теперь принимает List<Searchable> вместо массива
-    private static void printSearchResults(List<Searchable> results) {
+    // Теперь принимает TreeMap<String, Searchable>
+    private static void printSearchResults(TreeMap<String, Searchable> results) {
         if (results.isEmpty()) {
             System.out.println("Ничего не найдено");
             return;
         }
-        for (Searchable item : results) {
+        // Вывод в алфавитном порядке через values()
+        for (Searchable item : results.values()) {
             System.out.println(item.getStringRepresentation());
         }
     }

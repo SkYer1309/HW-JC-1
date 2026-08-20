@@ -3,18 +3,15 @@ package org.skypro.skyshop.engine;
 import org.skypro.skyshop.search.Searchable;
 
 import java.util.LinkedList;
-import java.util.List;
-
+import java.util.TreeMap;
 
 public class SearchEngine {
-    // LinkedList вместо массива
+    // LinkedList для хранения всех элементов
     private final LinkedList<Searchable> items = new LinkedList<>();
 
-    // Конструктор без параметров (размер не нужен)
     public SearchEngine() {
     }
 
-    // Для совместимости со старым кодом в main
     public SearchEngine(int capacity) {
     }
 
@@ -22,12 +19,14 @@ public class SearchEngine {
         items.add(item);
     }
 
-    // Возвращает ВСЕ результаты, без ограничения в 5
-    public List<Searchable> search(String query) {
-        List<Searchable> results = new LinkedList<>();
+    // Возвращает TreeMap — отсортированную по ключу (имени)
+    public TreeMap<String, Searchable> search(String query) {
+        TreeMap<String, Searchable> results = new TreeMap<>();
         for (Searchable item : items) {
             if (item.getSearchTerm().contains(query)) {
-                results.add(item);
+                // Ключ = имя, значение = сам объект
+                // Если несколько объектов с одинаковым именем — последний перезапишет предыдущий
+                results.put(item.getName(), item);
             }
         }
         return results;
