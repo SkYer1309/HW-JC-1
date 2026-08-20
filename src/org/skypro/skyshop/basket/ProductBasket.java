@@ -2,27 +2,30 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ProductBasket {
-    // LinkedList вместо массива
-    private final LinkedList<Product> products = new LinkedList<>();
+    // ✅ HashMap: ключ = имя продукта, значение = список продуктов с таким именем
+    private final HashMap<String, List<Product>> products = new HashMap<>();
 
-    // Добавление без проверок на переполнение
+    // ✅ Добавление продукта через computeIfAbsent
     public void addProduct(Product product) {
-        products.add(product);
+        products.computeIfAbsent(product.getName(), k -> new ArrayList<>())
+                .add(product);
     }
 
+    // ✅ Получение общей стоимости
     public int getTotalPrice() {
         int total = 0;
-        for (Product p : products) {
-            total += p.getPrice();
+        for (List<Product> productList : products.values()) {
+            for (Product p : productList) {
+                total += p.getPrice();
+            }
         }
         return total;
     }
 
+    // ✅ Печать содержимого корзины
     public void printBasket() {
         if (products.isEmpty()) {
             System.out.println("в корзине пусто");
@@ -30,41 +33,39 @@ public class ProductBasket {
         }
 
         int specialCount = 0;
-        for (Product p : products) {
-            System.out.println(p.toString());
-            if (p.isSpecial()) {
-                specialCount++;
+        int total = 0;
+
+        // ✅ Перебор всех значений Map через foreach
+        for (List<Product> productList : products.values()) {
+            for (Product p : productList) {
+                System.out.println(p.toString());
+                total += p.getPrice();
+                if (p.isSpecial()) {
+                    specialCount++;
+                }
             }
         }
-        System.out.println("Итого: " + getTotalPrice());
+        System.out.println("Итого: " + total);
         System.out.println("Специальных товаров: " + specialCount);
     }
 
+    // Проверка наличия продукта по имени
     public boolean availabilityProduct(String productName) {
-        for (Product p : products) {
-            if (p.getName().equalsIgnoreCase(productName)) {
-                return true;
-            }
-        }
-        return false;
+        return products.containsKey(productName);
     }
 
+    // Очистка корзины
     public void clearBasket() {
         products.clear();
     }
 
-    // удаление через Iterator
+    // Удаление продуктов по имени через remove по ключу
     public List<Product> removeProductsByName(String name) {
-        List<Product> removed = new LinkedList<>();
-        Iterator<Product> iterator = products.iterator();
-
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (product.getName().equalsIgnoreCase(name)) {
-                removed.add(product);
-                iterator.remove(); // Безопасное удаление через Iterator
-            }
+        // Вызов remove по ключу — возвращает список удалённых продуктов (или null)
+        List<Product> removed = products.remove(name);
+        if (removed == null) {
+            return new ArrayList<>(); // Возвращаем пустой список, если продукта не было
         }
-        return removed; // Возвращаем список (может быть пустым)
+        return removed;
     }
 }
