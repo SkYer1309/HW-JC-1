@@ -1,20 +1,19 @@
 package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
-
 import java.util.*;
 
 public class ProductBasket {
-    // ✅ HashMap: ключ = имя продукта, значение = список продуктов с таким именем
+    // HashMap: ключ = имя продукта, значение = список продуктов с таким именем
     private final HashMap<String, List<Product>> products = new HashMap<>();
 
-    // ✅ Добавление продукта через computeIfAbsent
+    // Добавление продукта через computeIfAbsent
     public void addProduct(Product product) {
         products.computeIfAbsent(product.getName(), k -> new ArrayList<>())
                 .add(product);
     }
 
-    // ✅ Получение общей стоимости
+    // Получение общей стоимости
     public int getTotalPrice() {
         int total = 0;
         for (List<Product> productList : products.values()) {
@@ -25,7 +24,7 @@ public class ProductBasket {
         return total;
     }
 
-    // ✅ Печать содержимого корзины
+    // Печать содержимого корзины
     public void printBasket() {
         if (products.isEmpty()) {
             System.out.println("в корзине пусто");
@@ -35,7 +34,7 @@ public class ProductBasket {
         int specialCount = 0;
         int total = 0;
 
-        // ✅ Перебор всех значений Map через foreach
+        // Перебор всех значений Map через foreach
         for (List<Product> productList : products.values()) {
             for (Product p : productList) {
                 System.out.println(p.toString());

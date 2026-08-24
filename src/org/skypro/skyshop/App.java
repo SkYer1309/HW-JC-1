@@ -9,6 +9,7 @@ import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Searchable;
+import java.util.TreeSet;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -225,14 +226,14 @@ public class App {
         }
     }
 
-    // Теперь принимает TreeMap<String, Searchable>
-    private static void printSearchResults(TreeMap<String, Searchable> results) {
+    //Теперь принимает TreeSet<Searchable>
+    private static void printSearchResults(TreeSet<Searchable> results) {
         if (results.isEmpty()) {
             System.out.println("Ничего не найдено");
             return;
         }
-        // Вывод в алфавитном порядке через values()
-        for (Searchable item : results.values()) {
+        //Вывод в порядке сортировки TreeSet
+        for (Searchable item : results) {
             System.out.println(item.getStringRepresentation());
         }
     }
