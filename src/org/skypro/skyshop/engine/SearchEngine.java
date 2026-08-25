@@ -1,13 +1,14 @@
 package org.skypro.skyshop.engine;
 
 import org.skypro.skyshop.search.Searchable;
-
-import java.util.LinkedList;
-import java.util.TreeMap;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class SearchEngine {
-    // LinkedList для хранения всех элементов
-    private final LinkedList<Searchable> items = new LinkedList<>();
+    //Шаг 1: HashSet вместо LinkedList — убирает дубликаты
+    private final Set<Searchable> items = new HashSet<>();
 
     public SearchEngine() {
     }
@@ -16,17 +17,24 @@ public class SearchEngine {
     }
 
     public void add(Searchable item) {
-        items.add(item);
+        items.add(item); //Дубликаты автоматически отбрасываются
     }
 
-    // Возвращает TreeMap — отсортированную по ключу (имени)
-    public TreeMap<String, Searchable> search(String query) {
-        TreeMap<String, Searchable> results = new TreeMap<>();
+    //Шаг 2: возвращает TreeSet с кастомным компаратором
+    public TreeSet<Searchable> search(String query) {
+        //Компаратор: сначала по длине имени (убывание), потом по алфавиту
+        Comparator<Searchable> comparator = (s1, s2) -> {
+            int lengthCompare = Integer.compare(s2.getName().length(), s1.getName().length());
+            if (lengthCompare != 0) {
+                return lengthCompare;
+            }
+            return s1.getName().compareTo(s2.getName());
+        };
+
+        TreeSet<Searchable> results = new TreeSet<>(comparator);
         for (Searchable item : items) {
             if (item.getSearchTerm().contains(query)) {
-                // Ключ = имя, значение = сам объект
-                // Если несколько объектов с одинаковым именем — последний перезапишет предыдущий
-                results.put(item.getName(), item);
+                results.add(item);
             }
         }
         return results;
