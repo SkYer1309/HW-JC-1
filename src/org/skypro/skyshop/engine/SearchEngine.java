@@ -1,13 +1,14 @@
 package org.skypro.skyshop.engine;
 
 import org.skypro.skyshop.search.Searchable;
+
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class SearchEngine {
-    //Шаг 1: HashSet вместо LinkedList — убирает дубликаты
     private final Set<Searchable> items = new HashSet<>();
 
     public SearchEngine() {
@@ -20,9 +21,9 @@ public class SearchEngine {
         items.add(item); //Дубликаты автоматически отбрасываются
     }
 
-    //Шаг 2: возвращает TreeSet с кастомным компаратором
+    // Метод search() переписан на Stream API
     public TreeSet<Searchable> search(String query) {
-        //Компаратор: сначала по длине имени (убывание), потом по алфавиту
+        // Компаратор: сначала по длине имени (убывание), потом по алфавиту
         Comparator<Searchable> comparator = (s1, s2) -> {
             int lengthCompare = Integer.compare(s2.getName().length(), s1.getName().length());
             if (lengthCompare != 0) {
@@ -31,13 +32,10 @@ public class SearchEngine {
             return s1.getName().compareTo(s2.getName());
         };
 
-        TreeSet<Searchable> results = new TreeSet<>(comparator);
-        for (Searchable item : items) {
-            if (item.getSearchTerm().contains(query)) {
-                results.add(item);
-            }
-        }
-        return results;
+        // Один стрим: filter + collect в TreeSet через Collectors.toCollection
+        return items.stream()
+                .filter(item -> item.getSearchTerm().contains(query))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(comparator)));
     }
 
     public Searchable findBestMatch(String search) throws BestResultNotFound {
