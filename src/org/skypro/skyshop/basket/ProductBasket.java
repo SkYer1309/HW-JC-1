@@ -2,6 +2,7 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductBasket {
     // HashMap: ключ = имя продукта, значение = список продуктов с таким именем
@@ -14,38 +15,42 @@ public class ProductBasket {
     }
 
     // Получение общей стоимости
+    // getTotalPrice() через flatMap, mapToInt, sum
     public int getTotalPrice() {
-        int total = 0;
-        for (List<Product> productList : products.values()) {
-            for (Product p : productList) {
-                total += p.getPrice();
-            }
-        }
-        return total;
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
     // Печать содержимого корзины
+    // printBasket() через flatMap и forEach
     public void printBasket() {
         if (products.isEmpty()) {
             System.out.println("в корзине пусто");
             return;
         }
 
-        int specialCount = 0;
-        int total = 0;
+        // Подсчёт специальных товаров вынесен в отдельный метод
+        long specialCount = getSpecialCount();
 
-        // Перебор всех значений Map через foreach
-        for (List<Product> productList : products.values()) {
-            for (Product p : productList) {
-                System.out.println(p.toString());
-                total += p.getPrice();
-                if (p.isSpecial()) {
-                    specialCount++;
-                }
-            }
-        }
-        System.out.println("Итого: " + total);
+        // Вывод через flatMap и forEach
+        products.values().stream()
+                .flatMap(Collection::stream)
+                .forEach(product -> {
+                    System.out.println(product.toString());
+                });
+
+        System.out.println("Итого: " + getTotalPrice());
         System.out.println("Специальных товаров: " + specialCount);
+    }
+
+    // Приватный метод подсчёта специальных товаров через filter и count
+    private long getSpecialCount() {
+        return products.values().stream()
+                .flatMap(Collection::stream)
+                .filter(Product::isSpecial)
+                .count();
     }
 
     // Проверка наличия продукта по имени
